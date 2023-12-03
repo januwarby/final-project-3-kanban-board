@@ -9,7 +9,7 @@
         },
         "version": "1.0"
     },
-    "host": "fp3-kanban-board-production.up.railway.app",
+    "host": "https://fp3-kanban-board-production.up.railway.app/",
     "basePath": "/",
     "paths": {
         "/categories": {

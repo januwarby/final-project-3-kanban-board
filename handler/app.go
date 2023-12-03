@@ -14,7 +14,9 @@ import (
 	"final-project/service/category_service"
 	"final-project/service/task_service"
 	"final-project/service/user_service"
+	"net/http"
 
+	"github.com/gin-contrib/cors"
 	"github.com/gin-gonic/gin"
 
 	swaggoFile "github.com/swaggo/files"
@@ -28,7 +30,7 @@ import (
 // @contact.name GLNG-KS07 - Group 5
 // @contact.url https://github.com/yasidalmubarok/group-5-final-project-kanban-board
 
-// @host fp3-kanban-board-production.up.railway.app
+// @host https://fp3-kanban-board-production.up.railway.app/
 // @BasePath /
 
 func StartApp() {
@@ -55,6 +57,22 @@ func StartApp() {
 	authService := auth_service.NewAuthService(userRepo, taskRepo, categoryRepo)
 
 	route := gin.Default()
+
+	// cors
+	route.Use(cors.New(cors.Config{
+		AllowOrigins: []string{"*"},
+		AllowMethods: []string{
+			http.MethodPost,
+			http.MethodGet,
+			http.MethodPut,
+			http.MethodDelete,
+			http.MethodOptions,
+		},
+		AllowHeaders: []string{
+			"Content-Type",
+			"Authorization",
+		},
+	}))
 
 	route.GET("/swagger/*any", ginSwagger.WrapHandler(swaggoFile.Handler))
 

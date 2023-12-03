@@ -167,7 +167,7 @@ definitions:
       updatedAt:
         type: string
     type: object
-host: fp3-kanban-board-production.up.railway.app
+host: https://fp3-kanban-board-production.up.railway.app/
 info:
   contact:
     name: GLNG-KS07 - Group 5

@@ -835,7 +835,7 @@ const docTemplate = `{
 // SwaggerInfo holds exported Swagger Info so clients can modify it
 var SwaggerInfo = &swag.Spec{
 	Version:          "1.0",
-	Host:             "fp3-kanban-board-production.up.railway.app",
+	Host:             "https://fp3-kanban-board-production.up.railway.app/",
 	BasePath:         "/",
 	Schemes:          []string{},
 	Title:            "Kanban Board",
