@@ -83,17 +83,13 @@ func (cs *categoryService) Update(categoryId int, categoryPayLoad *dto.UpdateReq
 		return nil, err
 	}
 
-	updateCategory, err := cs.categoryRepo.CheckCategoryId(categoryId)
+	_, err = cs.categoryRepo.CheckCategoryId(categoryId)
 
 	if err != nil {
 		if err.Status() == http.StatusNotFound {
 			return nil, errs.NewNotFoundError("category not found")
 		}
 		return nil, err
-	}
-
-	if updateCategory.Id != categoryId {
-		return nil, errs.NewNotFoundError("invalid user")
 	}
 
 	category := &entity.Category{
@@ -115,17 +111,13 @@ func (cs *categoryService) Update(categoryId int, categoryPayLoad *dto.UpdateReq
 }
 
 func (cs *categoryService) Delete(categoryId int) (*dto.DeleteCategoryByIdResponse, errs.MessageErr) {
-	category, err := cs.categoryRepo.CheckCategoryId(categoryId)
+	_, err := cs.categoryRepo.CheckCategoryId(categoryId)
 
 	if err != nil {
 		if err.Status() == http.StatusNotFound {
 			return nil, errs.NewNotFoundError("category not found")
 		}
 		return nil, err
-	}
-
-	if category.Id != categoryId {
-		return nil, errs.NewNotFoundError("invalid user")
 	}
 
 	cs.categoryRepo.DeleteCategory(categoryId)

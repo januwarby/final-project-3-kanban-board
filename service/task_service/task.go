@@ -101,7 +101,7 @@ func (ts *taskService) UpdateTask(taskId int, taskPayLoad *dto.UpdateTaskRequest
 		return nil, err
 	}
 
-	updateTask, err := ts.taskRepo.GetTaskById(taskId)
+	_, err = ts.taskRepo.GetTaskById(taskId)
 
 	if err != nil {
 		if err.Status() == http.StatusNotFound {
@@ -110,9 +110,6 @@ func (ts *taskService) UpdateTask(taskId int, taskPayLoad *dto.UpdateTaskRequest
 		return nil, err
 	}
 
-	if updateTask.Id != taskId {
-		return nil, errs.NewNotFoundError("invalid user")
-	}
 
 	task := &entity.Task{
 		Id:          taskId,
@@ -140,17 +137,13 @@ func (ts *taskService) UpdateTaskByStatus(taskId int, taskPayLoad *dto.UpdateTas
 		return nil, err
 	}
 
-	updateTask, err := ts.taskRepo.GetTaskById(taskId)
+	_, err = ts.taskRepo.GetTaskById(taskId)
 
 	if err != nil {
 		if err.Status() == http.StatusNotFound {
 			return nil, errs.NewNotFoundError("task not found")
 		}
 		return nil, err
-	}
-
-	if updateTask.Id != taskId {
-		return nil, errs.NewNotFoundError("invalid user")
 	}
 
 	task := &entity.Task{
@@ -178,17 +171,13 @@ func (ts *taskService) UpdateTaskByCategoryId(taskId int, taskPayLoad *dto.Updat
 		return nil, err
 	}
 
-	updateTask, err := ts.taskRepo.GetTaskById(taskId)
+	_, err = ts.taskRepo.GetTaskById(taskId)
 
 	if err != nil {
 		if err.Status() == http.StatusNotFound {
 			return nil, errs.NewNotFoundError("task not found")
 		}
 		return nil, err
-	}
-
-	if updateTask.Id != taskId {
-		return nil, errs.NewNotFoundError("invalid user")
 	}
 
 	_, err = ts.categoryRepo.CheckCategoryId(taskPayLoad.CategoryId)
@@ -219,17 +208,13 @@ func (ts *taskService) UpdateTaskByCategoryId(taskId int, taskPayLoad *dto.Updat
 }
 
 func (ts *taskService) DeleteTaskById(taskId int) (*dto.DeleteTaskByIdResponse, errs.MessageErr) {
-	task, err := ts.taskRepo.GetTaskById(taskId)
+	_, err := ts.taskRepo.GetTaskById(taskId)
 
 	if err != nil {
 		if err.Status() == http.StatusNotFound {
 			return nil, errs.NewNotFoundError("task not found")
 		}
 		return nil, err
-	}
-
-	if task.Id != taskId {
-		return nil, errs.NewNotFoundError("invalid user")
 	}
 
 	ts.taskRepo.DeleteTaskById(taskId)
