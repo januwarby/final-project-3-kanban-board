@@ -208,13 +208,17 @@ func (ts *taskService) UpdateTaskByCategoryId(taskId int, taskPayLoad *dto.Updat
 }
 
 func (ts *taskService) DeleteTaskById(taskId int) (*dto.DeleteTaskByIdResponse, errs.MessageErr) {
-	_, err := ts.taskRepo.GetTaskById(taskId)
+	task, err := ts.taskRepo.GetTaskById(taskId)
 
 	if err != nil {
 		if err.Status() == http.StatusNotFound {
 			return nil, errs.NewNotFoundError("task not found")
 		}
 		return nil, err
+	}
+
+	if task.Id != taskId {
+		return nil, errs.NewNotFoundError("invalid user")
 	}
 
 	ts.taskRepo.DeleteTaskById(taskId)
